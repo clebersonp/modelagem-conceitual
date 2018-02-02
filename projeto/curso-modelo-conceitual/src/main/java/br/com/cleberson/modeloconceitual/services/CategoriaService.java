@@ -6,19 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.cleberson.modeloconceitual.domain.Categoria;
+import br.com.cleberson.modeloconceitual.domain.Produto;
 import br.com.cleberson.modeloconceitual.repositories.CategoriaRepository;
+import br.com.cleberson.modeloconceitual.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
 
 	@Autowired
-	private CategoriaRepository repo;
+	private CategoriaRepository catRepo;
 	
 	public Categoria buscar(Long id) {
-		return repo.findOne(id);
+		Categoria categoria = catRepo.findOne(id);
+		if (categoria == null) {
+			throw new ObjectNotFoundException("Categoria não encontrada! Id: " + id 
+					+ " Tipo: " + Categoria.class.getName());
+		}
+		return categoria;
 	}
 	
 	public List<Categoria> listar() {
-		return repo.findAll();
+		return catRepo.findAll();
+	}
+
+	public List<Produto> listarProdutos(Long idCategoria) {
+		return catRepo.findOne(idCategoria).getProdutos();
 	}
 }

@@ -7,5 +7,4 @@ import br.com.cleberson.modeloconceitual.domain.Produto;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
-
 }
