@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.cleberson.modeloconceitual.domain.Categoria;
-import br.com.cleberson.modeloconceitual.domain.Produto;
 import br.com.cleberson.modeloconceitual.repositories.CategoriaRepository;
 import br.com.cleberson.modeloconceitual.services.exceptions.ObjectNotFoundException;
 
@@ -27,9 +26,5 @@ public class CategoriaService {
 	
 	public List<Categoria> listar() {
 		return catRepo.findAll();
-	}
-
-	public List<Produto> listarProdutos(Long idCategoria) {
-		return catRepo.findOne(idCategoria).getProdutos();
 	}
 }

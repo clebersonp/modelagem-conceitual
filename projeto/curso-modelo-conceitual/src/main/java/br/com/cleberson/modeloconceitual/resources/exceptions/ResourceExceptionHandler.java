@@ -1,5 +1,7 @@
 package br.com.cleberson.modeloconceitual.resources.exceptions;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
-		StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+		StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), LocalDateTime.now());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 }

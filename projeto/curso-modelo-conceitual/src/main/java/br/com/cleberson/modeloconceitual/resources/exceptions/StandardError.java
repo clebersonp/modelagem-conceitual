@@ -1,6 +1,9 @@
 package br.com.cleberson.modeloconceitual.resources.exceptions;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class StandardError implements Serializable {
 
@@ -8,12 +11,14 @@ public class StandardError implements Serializable {
 
 	private Integer status;
 	private String msg;
-	private Long timeStamp;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy KK:mm a")
+	private LocalDateTime timeStamp;
 
 	public StandardError() {
 	}
 	
-	public StandardError(Integer status, String msg, Long timeStamp) {
+	public StandardError(Integer status, String msg, LocalDateTime timeStamp) {
 		this.status = status;
 		this.msg = msg;
 		this.timeStamp = timeStamp;
@@ -32,11 +37,11 @@ public class StandardError implements Serializable {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-
-	public Long getTimeStamp() {
+	
+	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
-	public void setTimeStamp(Long timeStamp) {
+	public void setTimeStamp(LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 }
