@@ -24,6 +24,11 @@ public class Endereco implements Serializable {
 	private String bairro;
 	private String cep;
 
+	/**
+	 * Veja o inicio da explicacao na classe {@link Cliente}
+	 * 
+	 * ...mas não quero que os enderecos conheca os clientes;
+	 */
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")

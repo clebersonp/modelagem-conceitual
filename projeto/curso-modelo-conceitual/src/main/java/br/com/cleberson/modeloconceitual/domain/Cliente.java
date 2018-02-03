@@ -31,6 +31,12 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Long tipo;
 	
+	/**
+	 * Estou protegendo a json ciclico, estou dizendo:</br>
+	 * quero serializar o cliente com seus enderecos</br>
+	 * 
+	 * Veja o resto da explicacao na classe {@link Endereco}
+	 */
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
