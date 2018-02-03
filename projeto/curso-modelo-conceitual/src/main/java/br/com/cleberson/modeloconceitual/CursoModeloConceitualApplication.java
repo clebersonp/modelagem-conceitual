@@ -11,11 +11,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.cleberson.modeloconceitual.domain.Categoria;
 import br.com.cleberson.modeloconceitual.domain.Cidade;
+import br.com.cleberson.modeloconceitual.domain.Cliente;
+import br.com.cleberson.modeloconceitual.domain.Endereco;
 import br.com.cleberson.modeloconceitual.domain.Estado;
 import br.com.cleberson.modeloconceitual.domain.Produto;
 import br.com.cleberson.modeloconceitual.domain.enumarations.EnumEstadoSigla;
+import br.com.cleberson.modeloconceitual.domain.enumarations.TipoCliente;
 import br.com.cleberson.modeloconceitual.repositories.CategoriaRepository;
 import br.com.cleberson.modeloconceitual.repositories.CidadeRepository;
+import br.com.cleberson.modeloconceitual.repositories.ClienteRepository;
+import br.com.cleberson.modeloconceitual.repositories.EnderecoRepository;
 import br.com.cleberson.modeloconceitual.repositories.EstadoRepository;
 import br.com.cleberson.modeloconceitual.repositories.ProdutoRepository;
 
@@ -30,6 +35,10 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoModeloConceitualApplication.class, args);
@@ -74,6 +83,23 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 		estadoRepository.save(estados);
 		cidadeRepository.save(todasCidades);
 		
+		// Criar cliente, endereco e telefones
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "33366655544", TipoCliente.PESSOA_FISICA);
+		cli1.getTelefones().addAll(Arrays.asList("1122354687", "1144556632"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "358796546", cli1, recuperarCidade(todasCidades, "Urbelândia"));
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "358542156", cli1, recuperarCidade(todasCidades, "São Paulo"));
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.save(cli1);
+		enderecoRepository.save(cli1.getEnderecos());
+		
+	}
+
+	private Cidade recuperarCidade(List<Cidade> todasCidades, String cidade) {
+		return todasCidades.stream().filter(c -> c.getNome().equalsIgnoreCase(cidade)).findFirst().get();
 	}
 
 	private Estado recuperarEstado(List<Estado> estados, EnumEstadoSigla sigla) {
