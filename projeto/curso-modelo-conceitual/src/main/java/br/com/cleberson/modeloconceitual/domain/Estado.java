@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.cleberson.modeloconceitual.domain.enumarations.EnumEstadoSigla;
 
 @Entity
@@ -26,6 +28,7 @@ public class Estado implements Serializable {
 	@Enumerated(value = EnumType.STRING)
 	private EnumEstadoSigla sigla;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "estado")
 	private List<Cidade> cidades = new ArrayList<>();
 	
