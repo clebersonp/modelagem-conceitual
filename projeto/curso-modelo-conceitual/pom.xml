@@ -52,6 +52,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		
+		<!-- formatar datas ao serializar e deserializar json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
