@@ -15,6 +15,7 @@ import br.com.cleberson.modeloconceitual.domain.Cidade;
 import br.com.cleberson.modeloconceitual.domain.Cliente;
 import br.com.cleberson.modeloconceitual.domain.Endereco;
 import br.com.cleberson.modeloconceitual.domain.Estado;
+import br.com.cleberson.modeloconceitual.domain.ItemPedido;
 import br.com.cleberson.modeloconceitual.domain.Pagamento;
 import br.com.cleberson.modeloconceitual.domain.PagamentoComBoleto;
 import br.com.cleberson.modeloconceitual.domain.PagamentoComCartao;
@@ -28,6 +29,7 @@ import br.com.cleberson.modeloconceitual.repositories.CidadeRepository;
 import br.com.cleberson.modeloconceitual.repositories.ClienteRepository;
 import br.com.cleberson.modeloconceitual.repositories.EnderecoRepository;
 import br.com.cleberson.modeloconceitual.repositories.EstadoRepository;
+import br.com.cleberson.modeloconceitual.repositories.ItemPedidoRepository;
 import br.com.cleberson.modeloconceitual.repositories.PagamentoRepository;
 import br.com.cleberson.modeloconceitual.repositories.PedidoRepository;
 import br.com.cleberson.modeloconceitual.repositories.ProdutoRepository;
@@ -51,6 +53,8 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoModeloConceitualApplication.class, args);
@@ -123,6 +127,13 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 		
 		pedidoRepository.save(Arrays.asList(ped1, ped2));
 		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, prod1, 0.00, 1, 2000.0);
+		ItemPedido ip2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.0);
+		ItemPedido ip3 = new ItemPedido(ped2, prod2, 100.00, 1, 800.0);
+		
+		itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
+		
 		
 	}
 

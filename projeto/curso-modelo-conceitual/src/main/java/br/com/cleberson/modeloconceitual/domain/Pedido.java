@@ -2,6 +2,10 @@ package br.com.cleberson.modeloconceitual.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -31,6 +36,9 @@ public class Pedido implements Serializable {
 	@ManyToOne // nao preciso mapear o endereo para o pedido pois é um mapeamento direcional, ou seja, só o pedio conhece o endereco, porem o endereco nao conhece o pedido, mapeamento unidirecional
 	@JoinColumn(name = "endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
+	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {
 	}
@@ -75,6 +83,24 @@ public class Pedido implements Serializable {
 	}
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
+	public List<Produto> getProdutos() {
+		return this.itens.stream().map(ItemPedido::getProduto).collect(Collectors.toList());
+	}
+	
+	@Override
+	public String toString() {
+		return "Pedido [getId()=" + getId() + ", getInstante()=" + getInstante() + ", getPagamento()=" + getPagamento()
+				+ ", getCliente()=" + getCliente() + ", getEnderecoDeEntrega()=" + getEnderecoDeEntrega()
+				+ ", getItens()=" + getItens() + "]";
 	}
 
 	@Override
