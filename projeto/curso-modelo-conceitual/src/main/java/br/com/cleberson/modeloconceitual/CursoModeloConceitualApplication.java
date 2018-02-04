@@ -1,5 +1,6 @@
 package br.com.cleberson.modeloconceitual;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,14 +15,21 @@ import br.com.cleberson.modeloconceitual.domain.Cidade;
 import br.com.cleberson.modeloconceitual.domain.Cliente;
 import br.com.cleberson.modeloconceitual.domain.Endereco;
 import br.com.cleberson.modeloconceitual.domain.Estado;
+import br.com.cleberson.modeloconceitual.domain.Pagamento;
+import br.com.cleberson.modeloconceitual.domain.PagamentoComBoleto;
+import br.com.cleberson.modeloconceitual.domain.PagamentoComCartao;
+import br.com.cleberson.modeloconceitual.domain.Pedido;
 import br.com.cleberson.modeloconceitual.domain.Produto;
 import br.com.cleberson.modeloconceitual.domain.enumarations.EnumEstadoSigla;
+import br.com.cleberson.modeloconceitual.domain.enumarations.EstadoPagamento;
 import br.com.cleberson.modeloconceitual.domain.enumarations.TipoCliente;
 import br.com.cleberson.modeloconceitual.repositories.CategoriaRepository;
 import br.com.cleberson.modeloconceitual.repositories.CidadeRepository;
 import br.com.cleberson.modeloconceitual.repositories.ClienteRepository;
 import br.com.cleberson.modeloconceitual.repositories.EnderecoRepository;
 import br.com.cleberson.modeloconceitual.repositories.EstadoRepository;
+import br.com.cleberson.modeloconceitual.repositories.PagamentoRepository;
+import br.com.cleberson.modeloconceitual.repositories.PedidoRepository;
 import br.com.cleberson.modeloconceitual.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -39,6 +47,10 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoModeloConceitualApplication.class, args);
@@ -95,6 +107,22 @@ public class CursoModeloConceitualApplication implements CommandLineRunner {
 		
 		clienteRepository.save(cli1);
 		enderecoRepository.save(cli1.getEnderecos());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.save(Arrays.asList(ped1, ped2));
+		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
 		
 	}
 

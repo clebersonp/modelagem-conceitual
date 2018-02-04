@@ -31,6 +31,9 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Long tipo;
 	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	/**
 	 * Estou protegendo a json ciclico, estou dizendo:</br>
 	 * quero serializar o cliente com seus enderecos</br>
@@ -91,6 +94,9 @@ public class Cliente implements Serializable {
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCodigo();
 	}
+	public void setTipo(Long tipo) {
+		this.tipo = tipo;
+	}
 
 	public List<Endereco> getEnderecos() {
 		return enderecos;
@@ -114,11 +120,18 @@ public class Cliente implements Serializable {
 		this.telefones.add(telefone);
 	}
 	
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 	@Override
 	public String toString() {
 		return "Cliente [getId()=" + getId() + ", getNome()=" + getNome() + ", getEmail()=" + getEmail()
 				+ ", getCpfOuCnpj()=" + getCpfOuCnpj() + ", getTipo()=" + getTipo() + ", getEnderecos()="
-				+ getEnderecos() + "]";
+				+ getEnderecos() + ", getTelefones()=" + getTelefones() + ", getPedidos()=" + getPedidos() + "]";
 	}
 
 	@Override
