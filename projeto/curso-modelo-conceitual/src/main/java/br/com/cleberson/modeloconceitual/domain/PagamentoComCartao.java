@@ -11,7 +11,6 @@ public class PagamentoComCartao extends Pagamento {
 	private Integer numeroDeParcelas;
 
 	public PagamentoComCartao() {
-		super();
 	}
 
 	public PagamentoComCartao(Long id, EstadoPagamento estado, Pedido pedido, Integer numeroDeParcelas) {

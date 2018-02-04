@@ -15,8 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.cleberson.modeloconceitual.domain.enumarations.TipoCliente;
 
@@ -32,7 +31,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Long tipo;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
@@ -42,7 +41,6 @@ public class Cliente implements Serializable {
 	 * 
 	 * Veja o resto da explicacao na classe {@link Endereco}
 	 */
-	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
