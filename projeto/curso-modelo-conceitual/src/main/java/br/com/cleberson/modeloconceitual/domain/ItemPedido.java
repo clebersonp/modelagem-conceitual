@@ -5,11 +5,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore // nao serializa nem pedido e nem o produto e nem mesmo o itemPedidoPk
 	@EmbeddedId // id embutido em um tipo auxiliar
 	private ItemPedidoPk id = new ItemPedidoPk(); // atributo composto
 	
@@ -56,9 +59,11 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 	
+	@JsonIgnore // se eu nao ignorar sera serializado e tera problema ciclico
 	public Pedido getPedido() {
 		return this.id.getPedido();
 	}
+	
 	public Produto getProduto() {
 		return this.id.getProduto();
 	}

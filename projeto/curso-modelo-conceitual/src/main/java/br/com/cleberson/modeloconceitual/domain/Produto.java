@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto implements Serializable {
@@ -37,6 +38,7 @@ public class Produto implements Serializable {
 	)
 	private List<Categoria> categorias = new ArrayList<>();
 	
+	@JsonIgnore // nao quero serializar os itens pedido a partir de um produto
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 	
@@ -89,6 +91,7 @@ public class Produto implements Serializable {
 		this.itens = itens;
 	}
 	
+	@JsonIgnore // tenho que ignorar esse metodo, pois td que comeca com get sera serializado, e sera ciclico.
 	public List<Pedido> getPedidos() {
 		return this.itens.stream().map(ItemPedido::getPedido).collect(Collectors.toList());
 	}
